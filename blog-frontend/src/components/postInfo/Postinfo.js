@@ -21,10 +21,10 @@ const Postinfo = () => {
         <span className="postDate">2023 June 16</span>
       </div>
       <p className="postDesc">
-        Lorem ipsum dolor sit amet,Lorem ipsum dolor sit amet,Lorem ipsum dolor
-        sit amet,Lorem ipsum dolor sit amet,Lorem ipsum dolor sit amet,Lorem
-        ipsum dolor sit amet,Lorem ipsum dolor sit amet,Lorem ipsum dolor sit
-        amet,Lorem ipsum dolor sit amet,Lorem ipsum dolor sit amet
+        Lorem ipsum dolor sit amet,Lorem ipsum dolor sit amet.Lorem ipsum dolor
+        sit amet,Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet,Lorem
+        ipsum dolor sit amet.Lorem ipsum dolor sit amet,Lorem ipsum dolor sit
+        amet.
       </p>
     </div>
   );

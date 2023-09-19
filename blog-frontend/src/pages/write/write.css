@@ -44,6 +44,12 @@
   outline: none;
 }
 
+.writeCategory {
+  font-size: 20px;
+  border-left: 6px solid #2196f3;
+  background-color: #ddffff;
+}
+
 .writeText {
   font-size: 25px;
   height: 100vh;

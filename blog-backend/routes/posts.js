@@ -5,6 +5,8 @@ const {
   updatePosts,
   deletePosts,
   getSinglePost,
+
+  test,
 } = require("../controllers/postController");
 
 const router = express.Router();
@@ -15,13 +17,15 @@ router.post("/", createNewPost);
 //GET all posts
 router.get("/", getAllPosts);
 
+//GET a single post
+router.get("/:id", getSinglePost);
+
 //UPDATE a post
 router.patch("/:id", updatePosts);
 
 //DELETE a post
 router.delete("/:id", deletePosts);
 
-//GET a single post
-router.get("/:id", getSinglePost);
+router.get("/testApi", test);
 
 module.exports = router;

@@ -3,10 +3,10 @@ const postModel = require("../models/postModel");
 
 //Create new post
 const createNewPost = async (req, res) => {
-  const { photo, title, desc } = req.body;
+  const { photo, title, desc, category } = req.body;
 
   try {
-    const newPost = await postModel.create({ photo, title, desc });
+    const newPost = await postModel.create({ photo, title, desc, category });
     res.status(200).json(newPost);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -86,10 +86,20 @@ const getSinglePost = async (req, res) => {
   }
 };
 
+//Get categories
+const test = async (req, res) => {
+  try {
+    const testPosts = await postModel.find().sort({ createdAt: -1 });
+    res.status(200).json(testPosts);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 module.exports = {
   createNewPost,
   getAllPosts,
   updatePosts,
   deletePosts,
   getSinglePost,
+  test,
 };

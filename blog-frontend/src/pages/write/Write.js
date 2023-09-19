@@ -25,6 +25,14 @@ const Write = () => {
         </div>
 
         <div className="writeFormGroup">
+          <input
+            className="writeInput writeCategory"
+            type="text"
+            placeholder="category : tech or news"
+          />
+        </div>
+
+        <div className="writeFormGroup">
           <textarea
             placeholder="Tell your story..."
             type="text"

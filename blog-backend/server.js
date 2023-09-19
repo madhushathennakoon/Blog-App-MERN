@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const postRoutes = require("./routes/posts");
+const categoryRoutes = require("./routes/category");
 
 //express app
 const app = express();
@@ -20,7 +21,8 @@ mongoose
   });
 
 //routes
-app.use("/api/posts", postRoutes);
+app.use("/api/posts/", postRoutes);
+app.use("/api/category/", categoryRoutes);
 
 //listen for request
 app.listen(process.env.PORT, () => {

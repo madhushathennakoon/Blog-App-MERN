@@ -1,31 +1,35 @@
 import React from "react";
 import "./postinfo.css";
 
-const Postinfo = () => {
+const Postinfo = ({ postDetails }) => {
+  // useEffect(() => {
+  //   // console.log(postDetails.postDetails.photo);
+  //   console.log(postDetails);
+  // }, [postDetails]);
+
   return (
     <div className="post">
-      <img
-        className="postImg"
-        src="https://images.pexels.com/photos/1167355/pexels-photo-1167355.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-        alt="postBannerImage"
-      />
+      {postDetails.photo && (
+        <img
+          className="postImg"
+          src={postDetails.photo}
+          alt="postBannerImage"
+        />
+      )}
 
       <div className="postInfo">
         <div className="postCats">
-          <span className="postCat">Music</span>
+          <span className="postCat">{postDetails.category}</span>
         </div>
 
-        <span className="postTitle">Lorem ipsum dolor sit amet </span>
+        <span className="postTitle">{postDetails.title} </span>
 
         <hr />
-        <span className="postDate">2023 June 16</span>
+        <span className="postDate">
+          {new Date(postDetails.createdAt).toDateString()}
+        </span>
       </div>
-      <p className="postDesc">
-        Lorem ipsum dolor sit amet,Lorem ipsum dolor sit amet.Lorem ipsum dolor
-        sit amet,Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet,Lorem
-        ipsum dolor sit amet.Lorem ipsum dolor sit amet,Lorem ipsum dolor sit
-        amet.
-      </p>
+      <p className="postDesc">{postDetails.desc}</p>
     </div>
   );
 };

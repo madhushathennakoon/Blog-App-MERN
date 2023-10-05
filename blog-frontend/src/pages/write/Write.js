@@ -1,41 +1,95 @@
-import React from "react";
+import React, { useState } from "react";
 import "./write.css";
+import UsePostsContext from "../../hooks/UsePostsContext";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 
 const Write = () => {
+  const { dispatch } = UsePostsContext();
+
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [desc, setDesc] = useState("");
+  const [photo, setPhoto] = useState(null);
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+
+      const post = { title, category, desc, photo };
+
+      const response = await axios.post("/api/posts", post);
+      const data = response.data;
+
+      if ((response.status = 200)) {
+        setTitle("");
+        setCategory("");
+        setDesc("");
+        setPhoto("");
+        toast.success("post has been created.");
+        dispatch({ type: "CREATE_POST", payload: data });
+      }
+    } catch (error) {
+      // if ((error.response.status = 400)) {
+      //   toast.error(error.response.data.error);
+      // }
+      toast.error(error.response.data.error);
+    }
+  };
+
+  function convertToBase64(e) {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(e.target.files[0]);
+    fileReader.onload = () => {
+      setPhoto(fileReader.result);
+    };
+    fileReader.onerror = (error) => {
+      console.log("Error:", error);
+    };
+  }
+
   return (
     <div className="write">
-      <img
-        className="writeImg"
-        src="https://cdn.pixabay.com/photo/2015/06/19/21/24/avenue-815297_1280.jpg"
-        alt=""
-      />
-      <form className="writeForm">
+      {photo && <img className="writeImg" src={photo} alt="" />}
+
+      <form className="writeForm" onSubmit={handleSubmit}>
         <div className="writeFormGroup">
           <label htmlFor="fileInput">
             <i className="writeIcon fas fa-plus"></i>
           </label>
-          <input type="file" id="fileInput" style={{ display: "none" }} />
+          <input
+            type="file"
+            id="fileInput"
+            onChange={(e) => convertToBase64(e)}
+            style={{ display: "none" }}
+          />
 
           <input
-            className="writeInput"
             type="text"
             placeholder="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="writeInput"
             autoFocus={true}
           />
         </div>
 
         <div className="writeFormGroup">
           <input
-            className="writeInput writeCategory"
             type="text"
             placeholder="category : tech or news"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="writeInput writeCategory"
           />
         </div>
 
         <div className="writeFormGroup">
           <textarea
-            placeholder="Tell your story..."
             type="text"
+            placeholder="Tell your story..."
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
             className="writeInput writeText"
           ></textarea>
         </div>

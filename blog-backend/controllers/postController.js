@@ -5,8 +5,21 @@ const postModel = require("../models/postModel");
 const createNewPost = async (req, res) => {
   const { photo, title, desc, category } = req.body;
 
+  if (!title || !desc || !photo) {
+    return res.status(400).json({ error: "all fields are required" });
+  }
+
+  if (category.toLowerCase() !== "tech" && category.toLowerCase() !== "news") {
+    return res.status(400).json({ error: "category should be tech or news" });
+  }
+
   try {
-    const newPost = await postModel.create({ photo, title, desc, category });
+    const newPost = await postModel.create({
+      photo,
+      title,
+      desc,
+      category,
+    });
     res.status(200).json(newPost);
   } catch (error) {
     res.status(400).json({ error: error.message });

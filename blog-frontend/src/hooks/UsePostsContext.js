@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { postContext } from "../context/PostContext";
 
 const UsePostsContext = () => {

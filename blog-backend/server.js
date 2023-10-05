@@ -8,7 +8,7 @@ const categoryRoutes = require("./routes/category");
 const app = express();
 
 //middleware
-app.use(express.json());
+app.use(express.json({ limit: "25mb" }));
 
 //connect to DB
 mongoose

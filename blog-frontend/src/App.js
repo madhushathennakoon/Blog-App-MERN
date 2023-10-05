@@ -8,11 +8,13 @@ import Profile from "./pages/profile/Profile";
 import Single from "./pages/single/Single";
 import Tech from "./pages/tech/Tech";
 import News from "./pages/news/news";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <BrowserRouter>
       <Topbar />
+      <Toaster position="top-right" toastOptions={{ duration: 5000 }} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />

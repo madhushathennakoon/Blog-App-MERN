@@ -1,13 +1,8 @@
 import React from "react";
-import "./postinfo.css";
+import "./newsInfo.css";
 import { Link } from "react-router-dom";
 
-const Postinfo = ({ postDetails }) => {
-  // useEffect(() => {
-  //   // console.log(postDetails.postDetails.photo);
-  //   console.log(postDetails);
-  // }, [postDetails]);
-
+const NewsInfo = ({ postDetails }) => {
   return (
     <div className="post">
       {postDetails.photo && (
@@ -40,4 +35,4 @@ const Postinfo = ({ postDetails }) => {
   );
 };
 
-export default Postinfo;
+export default NewsInfo;

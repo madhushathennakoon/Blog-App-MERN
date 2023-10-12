@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import "./write.css";
-import UsePostsContext from "../../hooks/UsePostsContext";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 
 const Write = () => {
-  const { dispatch } = UsePostsContext();
-
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [desc, setDesc] = useState("");
@@ -19,7 +16,6 @@ const Write = () => {
       const post = { title, category, desc, photo };
 
       const response = await axios.post("/api/posts", post);
-      const data = response.data;
 
       if ((response.status = 200)) {
         setTitle("");
@@ -27,7 +23,6 @@ const Write = () => {
         setDesc("");
         setPhoto("");
         toast.success("post has been created.");
-        dispatch({ type: "CREATE_POST", payload: data });
       }
     } catch (error) {
       // if ((error.response.status = 400)) {

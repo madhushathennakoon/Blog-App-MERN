@@ -1,18 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./singlePost.css";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const SinglePost = () => {
+  const [postInfo, setPostInfo] = useState("");
+  const { id } = useParams();
+
+  useEffect(() => {
+    const fetchSinglePost = async () => {
+      const response = await axios.get(`/api/posts/${id}`);
+      const data = response.data;
+
+      if ((response.status = 200)) {
+        setPostInfo(data);
+      }
+    };
+
+    fetchSinglePost();
+  }, []);
   return (
     <div className="singlePost">
       <div className="singlePostWrapper">
-        <img
-          className="singlePostImg"
-          src="https://images.pexels.com/photos/1167355/pexels-photo-1167355.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-          alt=""
-        />
+        {postInfo.photo && (
+          <img className="singlePostImg" src={postInfo.photo} alt="" />
+        )}
 
         <h1 className="singlePostTitle">
-          Lorem ipsum dolor
+          {postInfo.title}
           <div className="singlePostEdit">
             <i className="singlePostIcon far fa-edit"></i>
             <i className="singlePostIcon far fa-trash-alt"></i>
@@ -23,19 +38,12 @@ const SinglePost = () => {
           <span className="singlePostAuthor">
             Author: <b>Medhush</b>
           </span>
-          <span className="singlePostDate">2023 June 26</span>
+          <span className="singlePostDate">
+            {new Date(postInfo.createdAt).toDateString()}
+          </span>
         </div>
 
-        <p className="singlePostdesc">
-          Lorem ipsum dolor sit amet,Lorem ipsum dolor sit amet,Lorem ipsum
-          dolor sit amet,Lorem ipsum dolor sit amet,Lorem ipsum dolor sit
-          amet,Lorem ipsum dolor sit amet,Lorem ipsum dolor sit amet,Lorem ipsum
-          dolor sit amet,Lorem ipsum dolor sit amet,Lorem ipsum dolor sit amet
-          Lorem ipsum dolor sit amet,Lorem ipsum dolor sit amet,Lorem ipsum
-          dolor sit amet,Lorem ipsum dolor sit amet,Lorem ipsum dolor sit
-          amet,Lorem ipsum dolor sit amet,Lorem ipsum dolor sit amet,Lorem ipsum
-          dolor sit amet,Lorem ipsum dolor sit amet,Lorem ipsum dolor sit amet
-        </p>
+        <p className="singlePostdesc">{postInfo.desc}</p>
       </div>
     </div>
   );

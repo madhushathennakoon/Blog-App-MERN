@@ -21,7 +21,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/write" element={<Write />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/single" element={<Single />} />
+        <Route path="/single/:id" element={<Single />} />
         <Route path="/tech" element={<Tech />} />
         <Route path="/news" element={<News />} />
       </Routes>

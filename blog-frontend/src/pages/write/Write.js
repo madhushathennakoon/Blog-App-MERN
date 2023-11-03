@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./write.css";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import app from "../../firebase";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 const Write = () => {
   const [title, setTitle] = useState("");
@@ -9,11 +11,27 @@ const Write = () => {
   const [desc, setDesc] = useState("");
   const [photo, setPhoto] = useState(null);
 
+  const uploadFile = async () => {
+    const storage = getStorage(app);
+    const imageRef = ref(storage, "image/" + photo.name);
+    // uploadBytes(imageRef, photo).then((snap) => {
+    //   getDownloadURL(snap.ref).then((url) => {
+    //     console.log(`url: ${url}`);
+    //     return url;
+    //   });
+    // });
+    const res = await uploadBytes(imageRef, photo);
+    const url = await getDownloadURL(res.ref);
+    return url;
+  };
+
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      const imageUrl = await uploadFile();
+      console.log(`path: ${imageUrl}`);
 
-      const post = { title, category, desc, photo };
+      const post = { title, category, desc, imageUrl };
 
       const response = await axios.post("/api/posts", post);
 
@@ -32,17 +50,6 @@ const Write = () => {
     }
   };
 
-  function convertToBase64(e) {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(e.target.files[0]);
-    fileReader.onload = () => {
-      setPhoto(fileReader.result);
-    };
-    fileReader.onerror = (error) => {
-      console.log("Error:", error);
-    };
-  }
-
   return (
     <div className="write">
       {photo && <img className="writeImg" src={photo} alt="" />}
@@ -55,7 +62,8 @@ const Write = () => {
           <input
             type="file"
             id="fileInput"
-            onChange={(e) => convertToBase64(e)}
+            onChange={(e) => setPhoto(e.target.files[0])}
+            // onChange={(e) => setPhoto(URL.createObjectURL(e.target.files[0]))}
             style={{ display: "none" }}
           />
 

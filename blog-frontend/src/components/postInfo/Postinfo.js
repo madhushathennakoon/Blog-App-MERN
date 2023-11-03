@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./postinfo.css";
 import { Link } from "react-router-dom";
 
 const Postinfo = ({ postDetails }) => {
-  // useEffect(() => {
-  //   // console.log(postDetails.postDetails.photo);
-  //   console.log(postDetails);
-  // }, [postDetails]);
+  useEffect(() => {
+    console.log(postDetails.imageUrl);
+  }, [postDetails]);
+
+  // const url = URL.createObjectURL(postDetails.imageUrl);
 
   return (
     <div className="post">
@@ -14,7 +15,7 @@ const Postinfo = ({ postDetails }) => {
         <Link to={`/single/${postDetails._id}`}>
           <img
             className="postImg"
-            src={postDetails.photo}
+            src={postDetails.imageUrl && postDetails.photo}
             alt="postBannerImage"
           />
         </Link>

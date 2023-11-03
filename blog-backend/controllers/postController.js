@@ -3,9 +3,9 @@ const postModel = require("../models/postModel");
 
 //Create new post
 const createNewPost = async (req, res) => {
-  const { photo, title, desc, category } = req.body;
+  const { imageUrl, title, desc, category } = req.body;
 
-  if (!title || !desc || !photo) {
+  if (!title || !desc) {
     return res.status(400).json({ error: "all fields are required" });
   }
 
@@ -15,7 +15,7 @@ const createNewPost = async (req, res) => {
 
   try {
     const newPost = await postModel.create({
-      photo,
+      imageUrl,
       title,
       desc,
       category,

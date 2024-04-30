@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const postRoutes = require("./routes/posts");
 const categoryRoutes = require("./routes/category");
+const userRoutes = require("./routes/user");
 
 //express app
 const app = express();
@@ -23,6 +24,7 @@ mongoose
 //routes
 app.use("/api/posts/", postRoutes);
 app.use("/api/category/", categoryRoutes);
+app.use("/api/user/", userRoutes);
 
 //listen for request
 app.listen(process.env.PORT, () => {

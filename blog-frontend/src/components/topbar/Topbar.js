@@ -1,8 +1,18 @@
 import React from "react";
 import "./topbar.css";
 import { Link } from "react-router-dom";
+import useLogout from "../../hooks/useLogout";
+import { UseAuthContext } from "../../hooks/UseAuthContext";
 
 const Topbar = () => {
+  const { logout } = useLogout();
+  const { user } = UseAuthContext();
+  console.log(user);
+
+  const handleClick = () => {
+    logout();
+  };
+
   return (
     <div className="top">
       <div className="topLeft">
@@ -29,11 +39,13 @@ const Topbar = () => {
               News
             </Link>
           </li>
-          <li className="topListItem">
-            <Link className="link" to="/write">
-              Write
-            </Link>
-          </li>
+          {user && (
+            <li className="topListItem">
+              <Link className="link" to="/write">
+                Write
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
 
@@ -47,11 +59,22 @@ const Topbar = () => {
         </Link>
 
         <ul className="topList">
-          <li className="topListItem" style={{ fontWeight: 400 }}>
-            <Link className="link" to="/login">
-              Login
-            </Link>
-          </li>
+          {user && (
+            <li
+              className="topListItem"
+              style={{ fontWeight: 400 }}
+              onClick={handleClick}
+            >
+              Logout
+            </li>
+          )}
+          {!user && (
+            <li className="topListItem" style={{ fontWeight: 400 }}>
+              <Link className="link" to="/login">
+                Login
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </div>

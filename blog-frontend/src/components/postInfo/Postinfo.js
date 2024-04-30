@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./postinfo.css";
 import { Link } from "react-router-dom";
 
 const Postinfo = ({ postDetails }) => {
-  useEffect(() => {
-    console.log(postDetails.imageUrl);
-  }, [postDetails]);
+  // useEffect(() => {
+  //   console.log(postDetails.imageUrl);
+  // }, [postDetails]);
 
   // const url = URL.createObjectURL(postDetails.imageUrl);
 
@@ -15,7 +15,16 @@ const Postinfo = ({ postDetails }) => {
         <Link to={`/single/${postDetails._id}`}>
           <img
             className="postImg"
-            src={postDetails.imageUrl && postDetails.photo}
+            src={postDetails.photo}
+            alt="postBannerImage"
+          />
+        </Link>
+      )}
+      {postDetails.imageUrl && (
+        <Link to={`/single/${postDetails._id}`}>
+          <img
+            className="postImg"
+            src={postDetails.imageUrl}
             alt="postBannerImage"
           />
         </Link>

@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 const postModel = require("../models/postModel");
+const { logger } = require("../helpers/logger");
 
 //Create new post
 const createNewPost = async (req, res) => {
-  const { imageUrl, title, desc, category } = req.body;
+  const { imageUrl, title, desc, category, username } = req.body;
 
   if (!title || !desc) {
     return res.status(400).json({ error: "all fields are required" });
@@ -19,9 +20,11 @@ const createNewPost = async (req, res) => {
       title,
       desc,
       category,
+      username,
     });
     res.status(200).json(newPost);
   } catch (error) {
+    logger.error(error);
     res.status(400).json({ error: error.message });
   }
 };
@@ -32,6 +35,7 @@ const getAllPosts = async (req, res) => {
     const allPosts = await postModel.find().sort({ createdAt: -1 });
     res.status(200).json(allPosts);
   } catch (error) {
+    logger.error(error);
     res.status(400).json({ error: error.message });
   }
 };
@@ -41,7 +45,7 @@ const updatePosts = async (req, res) => {
   const { id } = req.params;
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(404).json({ error: "No such workout" });
+      return res.status(404).json({ error: "No such posts" });
     }
 
     const updatePost = await postModel.findOneAndUpdate(
@@ -50,11 +54,12 @@ const updatePosts = async (req, res) => {
     );
 
     if (!updatePost) {
-      return res.status(404).json({ error: "No such workout" });
+      return res.status(404).json({ error: "No such posts" });
     }
 
     res.status(200).json(updatePost);
   } catch (error) {
+    logger.error(error);
     res.status(400).json({ error: error.message });
   }
 };
@@ -64,17 +69,18 @@ const deletePosts = async (req, res) => {
   const { id } = req.params;
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(404).json({ error: "No such workout" });
+      return res.status(404).json({ error: "No such posts" });
     }
 
     const deletePost = await postModel.findByIdAndDelete({ _id: id });
 
     if (!deletePost) {
-      return res.status(404).json({ error: "No such workout" });
+      return res.status(404).json({ error: "No such posts" });
     }
 
     res.status(200).json(deletePost);
   } catch (error) {
+    logger.error(error);
     res.status(400).json({ error: "No such post" });
   }
 };
@@ -84,17 +90,18 @@ const getSinglePost = async (req, res) => {
   const { id } = req.params;
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(404).json({ error: "No such workout" });
+      return res.status(404).json({ error: "No such posts" });
     }
 
     const singlePost = await postModel.findById({ _id: id });
 
     if (!singlePost) {
-      return res.status(404).json({ error: "No such workout" });
+      return res.status(404).json({ error: "No such posts" });
     }
 
     res.status(200).json(singlePost);
   } catch (error) {
+    logger.error(error);
     res.status(400).json({ error: error.message });
   }
 };
@@ -105,6 +112,7 @@ const test = async (req, res) => {
     const testPosts = await postModel.find().sort({ createdAt: -1 });
     res.status(200).json(testPosts);
   } catch (error) {
+    logger.error(error);
     res.status(400).json({ error: error.message });
   }
 };

@@ -14,6 +14,15 @@ const NewsInfo = ({ postDetails }) => {
           />
         </Link>
       )}
+      {postDetails.imageUrl && (
+        <Link to={`/single/${postDetails._id}`}>
+          <img
+            className="postImg"
+            src={postDetails.imageUrl}
+            alt="postBannerImage"
+          />
+        </Link>
+      )}
 
       <div className="postInfo">
         <div className="postCats">

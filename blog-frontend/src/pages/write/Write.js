@@ -4,12 +4,19 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 import app from "../../firebase";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { UseAuthContext } from "../../hooks/UseAuthContext";
 
 const Write = () => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [desc, setDesc] = useState("");
-  const [photo, setPhoto] = useState(null);
+  const [photo, setPhoto] = useState("");
+  const [displayPhoto, setDisplayPhoto] = useState("");
+  const { user } = UseAuthContext();
+
+  const imgConvert = (data) => {
+    setDisplayPhoto(URL.createObjectURL(data));
+  };
 
   const uploadFile = async () => {
     const storage = getStorage(app);
@@ -31,15 +38,17 @@ const Write = () => {
       const imageUrl = await uploadFile();
       console.log(`path: ${imageUrl}`);
 
-      const post = { title, category, desc, imageUrl };
+      const post = { title, category, desc, imageUrl, username: user.username };
 
       const response = await axios.post("/api/posts", post);
+      console.log(post);
 
       if ((response.status = 200)) {
         setTitle("");
         setCategory("");
         setDesc("");
         setPhoto("");
+        setDisplayPhoto("");
         toast.success("post has been created.");
       }
     } catch (error) {
@@ -52,7 +61,7 @@ const Write = () => {
 
   return (
     <div className="write">
-      {photo && <img className="writeImg" src={photo} alt="" />}
+      {displayPhoto && <img className="writeImg" src={displayPhoto} alt="" />}
 
       <form className="writeForm" onSubmit={handleSubmit}>
         <div className="writeFormGroup">
@@ -62,8 +71,10 @@ const Write = () => {
           <input
             type="file"
             id="fileInput"
-            onChange={(e) => setPhoto(e.target.files[0])}
-            // onChange={(e) => setPhoto(URL.createObjectURL(e.target.files[0]))}
+            onChange={(e) => {
+              setPhoto(e.target.files[0]);
+              imgConvert(e.target.files[0]);
+            }}
             style={{ display: "none" }}
           />
 
